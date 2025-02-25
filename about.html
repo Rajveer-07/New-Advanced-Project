@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - RGPV Papers Hub</title>
+    <!-- Tailwind CSS CDN for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- GSAP for animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Learn more about RGPV Papers Hub, your go-to resource for RGPV previous year question papers and academic support.">
+    <meta name="keywords" content="RGPV, about, mission, contact, education, question papers">
+    <meta name="author" content="RGPV Papers Hub Team">
+    <style>
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+        }
+        .feature-card {
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: scale(1.05);
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        /* Scroll Animation */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+        }
+        .scroll-reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-black text-white font-[Inter]">
+    <!-- Header Section -->
+    <header class="fixed top-5 left-0 right-0 px-4 md:px-10 z-10">
+        <div class="max-w-7xl mx-auto flex items-center justify-between py-4">
+            <!-- Logo -->
+            <div class="flex items-center">
+                <a href="index.html" class="group" aria-label="RGPV Papers Hub Home">
+                    <img src="https://i.ibb.co/67YdYqs5/Screenshot-2025-02-24-at-1-37-37-PM-removebg-preview.png" 
+                         alt="RGPV Logo" 
+                         class="w-12 h-auto mr-5 transition-transform duration-300 group-hover:scale-110">
+                </a>
+            </div>
+            <!-- Navigation -->
+            <nav class="flex-1">
+                <!-- Hamburger Menu Button (Visible on Mobile) -->
+                <button id="menu-toggle" class="md:hidden text-white text-2xl">☰</button>
+                <!-- Navigation Links -->
+                <ul id="nav-menu" class="hidden md:flex flex-col md:flex-row items-center gap-8 bg-black md:bg-transparent fixed inset-0 md:static justify-center md:justify-start">
+                    <li><a href="index.html" class="text-[#B3B3B3] hover:text-white text-sm md:text-base transition-colors">Home</a></li>
+                    <li><a href="papers.html" class="text-[#B3B3B3] hover:text-white text-sm md:text-base transition-colors">Papers</a></li>
+                    <li><a href="gallery.html" class="text-[#B3B3B3] hover:text-white text-sm md:text-base transition-colors">Gallery</a></li>
+                    <li><a href="about.html" class="text-white font-bold text-sm md:text-base">About</a></li>
+                    <li><a href="careers.html" class="text-[#B3B3B3] hover:text-white text-sm md:text-base transition-colors">Careers</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Background Animation -->
+    <div class="absolute inset-0 bg-gradient-to-b from-purple-900/20 to-black"></div>
+    <div class="absolute inset-0" id="particles"></div>
+
+    <!-- Advanced Animation Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // GSAP Animation for heading
+            gsap.from(".text-animate", {
+                duration: 1,
+                opacity: 0,
+                y: 50,
+                ease: "power3.out"
+            });
+
+            // Particle Animation
+            class Particle {
+                constructor(x, y) {
+                    this.x = x;
+                    this.y = y;
+                    this.size = Math.random() * 2;
+                    this.speedX = Math.random() * 9 - 3;
+                    this.speedY = Math.random() * 9 - 2;
+                }
+
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+
+                    if (this.size > 0.1) this.size -= 0.02;
+                }
+
+                draw(ctx) {
+                    ctx.fillStyle = 'rgba(255,255,255,0.5)';
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.style.position = 'absolute';
+            canvas.style.top = '0px';
+            canvas.style.left = '0px';
+            canvas.style.width = '100%';
+            canvas.style.height = '100%';
+            canvas.style.pointerEvents = 'none';
+            document.getElementById('particles').appendChild(canvas);
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+
+            let particles = [];
+            const numberOfParticles = 100;
+
+            function createParticles() {
+                for (let i = 0; i < numberOfParticles; i++) {
+                    particles.push(new Particle(
+                        Math.random() * canvas.width,
+                        Math.random() * canvas.height
+                    ));
+                }
+            }
+
+            function animateParticles() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                particles.forEach((particle, index) => {
+                    particle.update();
+                    particle.draw(ctx);
+
+                    if (particle.size <= 0.2) {
+                        particles.splice(index, 1);
+                        particles.push(new Particle(
+                            Math.random() * canvas.width,
+                            Math.random() * canvas.height
+                        ));
+                    }
+                });
+
+                requestAnimationFrame(animateParticles);
+            }
+
+            createParticles();
+            animateParticles();
+        });
+    </script>
+
+    <!-- Main Content Section -->
+    <main class="pt-32 pb-20">
+        <article class="max-w-4xl mx-auto px-4">
+            <!-- Introduction Section -->
+            <section class="text-center mb-16 scroll-reveal">
+                <h1 class="text-6xl md:text-7xl font-light mb-8 text-animate">About RGPV Papers Hub</h1>
+                <p class="text-xl text-gray-300 leading-relaxed max-w-2xl mx-auto">
+                    Welcome to RGPV Papers Hub, your ultimate resource for Rajiv Gandhi Proudyogiki Vishwavidyalaya (RGPV) previous year question papers. We’re here to empower students by providing free, easy access to high-quality academic materials, helping you prepare effectively and succeed in your studies.
+                </p>
+            </section>
+
+            <!-- Mission Section -->
+            <section class="mb-16 text-center scroll-reveal">
+                <h2 class="text-4xl font-light mb-6">Our Mission</h2>
+                <p class="text-2xl text-gray-300 leading-relaxed max-w-2xl mx-auto">
+                    At RGPV Papers Hub, our goal is to simplify your academic journey. We provide seamless access to a comprehensive collection of RGPV examination papers across all branches and semesters, ensuring every student has the tools they need to excel. Education is power, and we’re committed to making it accessible to all.
+                </p>
+            </section>
+
+            <!-- Features Section -->
+            <section class="mb-16 scroll-reveal">
+                <h2 class="text-4xl font-light mb-8 text-center">What We Offer</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="feature-card bg-white/10 p-6 rounded-lg text-center">
+                        <i class="fas fa-book-open text-4xl text-purple-400 mb-4"></i>
+                        <h3 class="text-xl font-semibold mb-2">Vast Paper Collection</h3>
+                        <p class="text-gray-300">Explore a wide range of RGPV question papers for all courses and years.</p>
+                    </div>
+                    <div class="feature-card bg-white/10 p-6 rounded-lg text-center">
+                        <i class="fas fa-search text-4xl text-purple-400 mb-4"></i>
+                        <h3 class="text-xl font-semibold mb-2">User-Friendly Interface</h3>
+                        <p class="text-gray-300">Navigate effortlessly with our intuitive design and search features.</p>
+                    </div>
+                    <div class="feature-card bg-white/10 p-6 rounded-lg text-center">
+                        <i class="fas fa-sync-alt text-4xl text-purple-400 mb-4"></i>
+                        <h3 class="text-xl font-semibold mb-2">Fresh Updates</h3>
+                        <p class="text-gray-300">Get the latest papers and resources as soon as they’re available.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact Section -->
+            <section class="mt-16 text-center scroll-reveal">
+                <h2 class="text-4xl font-light mb-6">Connect With Us</h2>
+                <p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+                    Have questions or suggestions? We’re here to help! Reach out to us through email or follow us on social media for updates.
+                </p>
+                <div class="flex justify-center gap-6">
+                    <a href="mailto:contact@rgpvpapers.com" class="text-blue-400 hover:text-blue-300 transition-colors text-xl">
+                        <i class="fas fa-envelope mr-2"></i>contact@rgpvpapers.com
+                    </a>
+                    <a href="https://twitter.com/rgpvpapers" class="text-blue-400 hover:text-blue-300 transition-colors text-xl" aria-label="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="https://facebook.com/rgpvpapers" class="text-blue-400 hover:text-blue-300 transition-colors text-xl" aria-label="Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                </div>
+            </section>
+        </article>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="py-8 text-center text-gray-400">
+        <p>© 2024 RGPV Papers Hub. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript Section -->
+    <script>
+        // Hamburger Menu Toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const navMenu = document.getElementById('nav-menu');
+
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('hidden');
+            menuToggle.textContent = navMenu.classList.contains('hidden') ? '☰' : '✕';
+        });
+
+        // Close Menu on Link Click
+        navMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.add('hidden');
+                menuToggle.textContent = '☰';
+            });
+        });
+
+        // Scroll Reveal Animation
+        const scrollRevealElements = document.querySelectorAll('.scroll-reveal');
+        const revealOnScroll = () => {
+            scrollRevealElements.forEach(el => {
+                const elementTop = el.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                if (elementTop < windowHeight - 100) {
+                    el.classList.add('visible');
+                }
+            });
+        };
+
+        window.addEventListener('scroll', revealOnScroll);
+        revealOnScroll(); // Initial check on load
+    </script>
+</body>
+</html>
