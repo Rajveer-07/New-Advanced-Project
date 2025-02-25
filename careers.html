@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Careers - RGPV Papers Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- GSAP Library (optional, currently unused but retained for potential future animations) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Scroll Reveal Animation Styles */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+        }
+        .scroll-reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-black text-white font-[Inter]">
+    <!-- Header -->
+    <header class="fixed top-5 left-0 right-0 px-4 md:px-10 z-10">
+        <div class="max-w-7xl mx-auto flex items-center justify-between py-4">
+            <!-- Logo -->
+            <div class="flex items-center">
+                <a href="index.html" aria-label="RGPV Papers Hub Home">
+                    <img src="https://i.ibb.co/67YdYqs5/Screenshot-2025-02-24-at-1-37-37-PM-removebg-preview.png" 
+                         alt="RGPV Logo" 
+                         class="w-12 h-auto mr-5">
+                </a>
+            </div>
+            <!-- Navigation -->
+            <nav class="flex-1">
+                <!-- Hamburger Menu Button (Visible on Mobile) -->
+                <button id="menu-toggle" class="md:hidden text-white text-2xl">☰</button>
+                <!-- Navigation Links -->
+                <ul id="nav-menu" class="hidden md:flex flex-col md:flex-row items-center gap-8 bg-black md:bg-transparent fixed inset-0 md:static justify-center md:justify-start">
+                    <li><a href="index.html" class="text-[#B3B3B3] hover:text-white text-sm md:text-base transition-colors">Home</a></li>
+                    <li><a href="papers.html" class="text-[#B3B3B3] hover:text-white text-sm md:text-base transition-colors">Papers</a></li>
+                    <li><a href="gallery.html" class="text-[#B3B3B3] hover:text-white text-sm md:text-base transition-colors">Gallery</a></li>
+                    <li><a href="about.html" class="text-[#B3B3B3] hover:text-white text-sm md:text-base transition-colors">About</a></li>
+                    <li><a href="careers.html" class="text-white font-bold text-sm md:text-base">Careers</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Background Animation -->
+    <div class="absolute inset-0 bg-gradient-to-b from-purple-900/20 to-black"></div>
+    <div class="absolute inset-0" id="particles"></div>
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // GSAP Animation (currently unused; targets .text-animate, which doesn't exist)
+            gsap.to(".text-animate", {
+                duration: 0.1,
+                opacity: 1,
+                yoyo: true,
+                repeat: -1,
+                ease: "power1.inOut"
+            });
+
+            // Particle Animation
+            class Particle {
+                constructor(x, y) {
+                    this.x = x;
+                    this.y = y;
+                    this.size = Math.random() * 2;
+                    this.speedX = Math.random() * 9 - 3;
+                    this.speedY = Math.random() * 9 - 2;
+                }
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    if (this.size > 0.1) this.size -= 0.02;
+                }
+                draw(ctx) {
+                    ctx.fillStyle = 'rgba(255,255,255,0.5)';
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.style.position = 'absolute';
+            canvas.style.top = '0px';
+            canvas.style.left = '0px';
+            canvas.style.width = '100%';
+            canvas.style.height = '100%';
+            canvas.style.pointerEvents = 'none';
+            document.getElementById('particles').appendChild(canvas);
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+
+            let particles = [];
+            const numberOfParticles = 100;
+            function createParticles() {
+                for (let i = 0; i < numberOfParticles; i++) {
+                    particles.push(new Particle(
+                        Math.random() * canvas.width,
+                        Math.random() * canvas.height
+                    ));
+                }
+            }
+            function animateParticles() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach((particle, index) => {
+                    particle.update();
+                    particle.draw(ctx);
+                    if (particle.size <= 0.2) {
+                        particles.splice(index, 1);
+                        particles.push(new Particle(
+                            Math.random() * canvas.width,
+                            Math.random() * canvas.height
+                        ));
+                    }
+                });
+                requestAnimationFrame(animateParticles);
+            }
+            createParticles();
+            animateParticles();
+
+            // Hamburger Menu Toggle
+            const menuToggle = document.getElementById('menu-toggle');
+            const navMenu = document.getElementById('nav-menu');
+            menuToggle.addEventListener('click', () => {
+                navMenu.classList.toggle('hidden');
+                menuToggle.textContent = navMenu.classList.contains('hidden') ? '☰' : '✕';
+            });
+            navMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenu.classList.add('hidden');
+                    menuToggle.textContent = '☰';
+                });
+            });
+
+            // Scroll Reveal Animation
+            const scrollRevealElements = document.querySelectorAll('.scroll-reveal');
+            const revealOnScroll = () => {
+                scrollRevealElements.forEach(el => {
+                    const elementTop = el.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+                    if (elementTop < windowHeight - 100) {
+                        el.classList.add('visible');
+                    }
+                });
+            };
+            window.addEventListener('scroll', revealOnScroll);
+            revealOnScroll();
+        });
+    </script>
+
+    <!-- Main Content -->
+    <main class="pt-32 pb-20">
+        <div class="max-w-4xl mx-auto px-4">
+            <h1 class="text-4xl md:text-5xl font-light mb-12 text-center">Join Our Team</h1>
+            
+            <!-- Mission Statement -->
+            <section class="text-center mb-16 scroll-reveal">
+                <p class="text-xl text-gray-300 leading-relaxed max-w-2xl mx-auto">
+                    Help us revolutionize how students access and prepare with past examination papers.
+                    We're building the future of educational resources.
+                </p>
+            </section>
+
+            <!-- Open Positions -->
+            <section class="space-y-8">
+                <h2 class="text-3xl font-light mb-8">Open Positions</h2>
+                
+                <div class="bg-white/5 p-8 rounded-lg hover:bg-white/10 transition-colors scroll-reveal">
+                    <i class="fas fa-folder-open text-4xl text-purple-400 mb-4"></i>
+                    <h3 class="text-2xl font-light mb-4">Content Curator</h3>
+                    <p class="text-gray-300 mb-6">
+                        Join us in organizing and maintaining our extensive collection of question papers.
+                        Help make quality study materials accessible to everyone.
+                    </p>
+                    <a href="mailto:careers@rgpvpapers.com" class="text-blue-400 hover:text-blue-300 transition-colors">
+                        Apply Now →
+                    </a>
+                </div>
+
+                <div class="bg-white/5 p-8 rounded-lg hover:bg-white/10 transition-colors scroll-reveal">
+                    <i class="fas fa-laptop-code text-4xl text-purple-400 mb-4"></i>
+                    <h3 class="text-2xl font-light mb-4">Technical Lead</h3>
+                    <p class="text-gray-300 mb-6">
+                        Lead the development of our digital platform and implement innovative features
+                        to enhance the student experience.
+                    </p>
+                    <a href="mailto:careers@rgpvpapers.com" class="text-blue-400 hover:text-blue-300 transition-colors">
+                        Apply Now →
+                    </a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-8 text-center text-gray-400">
+        <p>© 2024 RGPV Papers Hub. All rights reserved.</p>
+    </footer>
+</body>
+</html>
