@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - RGPV Papers Hub</title>
+    <!-- Tailwind CSS CDN for rapid styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter for a modern look -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- GSAP for smooth animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <style>
+        /* Custom styles for filter button active state */
+        .filter-btn.active {
+            background-color: #4a4a4a;
+        }
+        /* Ensure particles are behind content */
+        #particles {
+            z-index: -1;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-black text-white font-[Inter]">
+    <!-- Header Section -->
+    <header class="fixed top-5 left-0 right-0 px-4 md:px-10 z-10">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <!-- Logo with corrected URL -->
+            <div class="flex items-center">
+                <a href="index.html">
+                    <img src="https://i.ibb.co/67YdYqs5/Screenshot-2025-02-24-at-1-37-37-PM-removebg-preview.png" 
+                         alt="RGPV Logo" 
+                         class="w-12 h-auto mr-5">
+                </a>
+            </div>
+            <!-- Navigation -->
+            <nav class="flex-1">
+                <!-- Hamburger Menu Button (Mobile Only) -->
+                <button id="menu-toggle" class="md:hidden text-white text-2xl">☰</button>
+                <!-- Navigation Links -->
+                <ul id="nav-menu" class="hidden md:flex flex-col md:flex-row items-center gap-8 bg-black md:bg-transparent fixed inset-0 md:static justify-center md:justify-start">
+                    <li><a href="index.html" class="text-[#B3B3B3] hover:text-white text-sm md:text-base transition-colors">Home</a></li>
+                    <li><a href="papers.html" class="text-[#B3B3B3] hover:text-white text-sm md:text-base transition-colors">Papers</a></li>
+                    <li><a href="gallery.html" class="text-[#B3B3B3] hover:text-white text-sm md:text-base transition-colors">Gallery</a></li>
+                    <li><a href="about.html" class="text-[#B3B3B3] hover:text-white text-sm md:text-base transition-colors">About</a></li>
+                    <li><a href="careers.html" class="text-[#B3B3B3] hover:text-white text-sm md:text-base transition-colors">Careers</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <!-- Background Animation -->
+    <div class="absolute inset-0 bg-gradient-to-b from-purple-900/20 to-black"></div>
+    <div class="absolute inset-0" id="particles"></div>
+
+    <!-- Advanced Animation Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Particle Animation
+            class Particle {
+                constructor(x, y) {
+                    this.x = x;
+                    this.y = y;
+                    this.size = Math.random() * 2;
+                    this.speedX = Math.random() * 9 - 3;
+                    this.speedY = Math.random() * 9 - 2;
+                }
+
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+
+                    if (this.size > 0.1) this.size -= 0.02;
+                }
+
+                draw(ctx) {
+                    ctx.fillStyle = 'rgba(255,255,255,0.5)';
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.style.position = 'absolute';
+            canvas.style.top = '0';
+            canvas.style.left = '0';
+            canvas.style.width = '100%';
+            canvas.style.height = '100%';
+            canvas.style.pointerEvents = 'none';
+            document.getElementById('particles').appendChild(canvas);
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+
+            let particles = [];
+            const numberOfParticles = 100;
+
+            function createParticles() {
+                for (let i = 0; i < numberOfParticles; i++) {
+                    particles.push(new Particle(
+                        Math.random() * canvas.width,
+                        Math.random() * canvas.height
+                    ));
+                }
+            }
+
+            function animateParticles() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                particles.forEach((particle, index) => {
+                    particle.update();
+                    particle.draw(ctx);
+
+                    if (particle.size <= 0.2) {
+                        particles.splice(index, 1);
+                        particles.push(new Particle(
+                            Math.random() * canvas.width,
+                            Math.random() * canvas.height
+                        ));
+                    }
+                });
+
+                requestAnimationFrame(animateParticles);
+            }
+
+            createParticles();
+            animateParticles();
+        });
+    </script>
+    <!-- Main Content Section -->
+    <main class="pt-32 pb-20 relative z-0">
+        <div class="max-w-7xl mx-auto px-4">
+            <h1 class="text-4xl md:text-5xl font-light mb-12 text-center">Gallery</h1>
+            
+            <!-- Filter Buttons for Category Navigation -->
+            <div class="flex justify-center mb-8">
+                <button class="filter-btn bg-gray-800 text-white px-4 py-2 rounded mr-4 active" data-filter="all">All</button>
+                <button class="filter-btn bg-gray-800 text-white px-4 py-2 rounded mr-4" data-filter="campus">Campus</button>
+                <button class="filter-btn bg-gray-800 text-white px-4 py-2 rounded mr-4" data-filter="papers">Papers</button>
+                <button class="filter-btn bg-gray-800 text-white px-4 py-2 rounded" data-filter="toppers">Toppers</button>
+            </div>
+            
+            <!-- Campus Section -->
+            <section class="gallery-section campus mb-16">
+                <h2 class="text-3xl font-light mb-8 text-center">Campus</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Campus Gallery Item 1 -->
+                    <div class="aspect-square overflow-hidden rounded-lg relative group">
+                        <div class="loader absolute inset-0 flex items-center justify-center">
+                            <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-white"></div>
+                        </div>
+                        <img src="https://picsum.photos/400/400?random=1" 
+                             data-large="https://picsum.photos/1600/1600?random=1"
+                             alt="Campus view 1" 
+                             class="gallery-image w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" 
+                             loading="lazy">
+                        <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                            <p class="text-white text-lg">Campus view 1</p>
+                        </div>
+                    </div>
+                    <!-- Campus Gallery Item 2 -->
+                    <div class="aspect-square overflow-hidden rounded-lg relative group">
+                        <div class="loader absolute inset-0 flex items-center justify-center">
+                            <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-white"></div>
+                        </div>
+                        <img src="https://picsum.photos/400/400?random=2" 
+                             data-large="https://picsum.photos/1600/1600?random=2"
+                             alt="Campus view 2" 
+                             class="gallery-image w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" 
+                             loading="lazy">
+                        <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                            <p class="text-white text-lg">Campus view 2</p>
+                        </div>
+                    </div>
+                    <!-- Campus Gallery Item 3 -->
+                    <div class="aspect-square overflow-hidden rounded-lg relative group">
+                        <div class="loader absolute inset-0 flex items-center justify-center">
+                            <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-white"></div>
+                        </div>
+                        <img src="https://picsum.photos/400/400?random=3" 
+                             data-large="https://picsum.photos/1600/1600?random=3"
+                             alt="Campus view 3" 
+                             class="gallery-image w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" 
+                             loading="lazy">
+                        <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                            <p class="text-white text-lg">Campus view 3</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Papers Section -->
+            <section class="gallery-section papers mb-16">
+                <h2 class="text-3xl font-light mb-8 text-center">Papers</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Papers Gallery Item 1 -->
+                    <div class="aspect-square overflow-hidden rounded-lg relative group">
+                        <div class="loader absolute inset-0 flex items-center justify-center">
+                            <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-white"></div>
+                        </div>
+                        <img src="https://picsum.photos/400/400?random=4" 
+                             data-large="https://picsum.photos/1600/1600?random=4"
+                             alt="Question Paper 1" 
+                             class="gallery-image w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" 
+                             loading="lazy">
+                        <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                            <p class="text-white text-lg">Question Paper 1</p>
+                        </div>
+                    </div>
+                    <!-- Papers Gallery Item 2 -->
+                    <div class="aspect-square overflow-hidden rounded-lg relative group">
+                        <div class="loader absolute inset-0 flex items-center justify-center">
+                            <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-white"></div>
+                        </div>
+                        <img src="https://picsum.photos/400/400?random=5" 
+                             data-large="https://picsum.photos/1600/1600?random=5"
+                             alt="Question Paper 2" 
+                             class="gallery-image w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" 
+                             loading="lazy">
+                        <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                            <p class="text-white text-lg">Question Paper 2</p>
+                        </div>
+                    </div>
+                    <!-- Papers Gallery Item 3 -->
+                    <div class="aspect-square overflow-hidden rounded-lg relative group">
+                        <div class="loader absolute inset-0 flex items-center justify-center">
+                            <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-white"></div>
+                        </div>
+                        <img src="https://picsum.photos/400/400?random=6" 
+                             data-large="https://picsum.photos/1600/1600?random=6"
+                             alt="Question Paper 3" 
+                             class="gallery-image w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" 
+                             loading="lazy">
+                        <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                            <p class="text-white text-lg">Question Paper 3</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Toppers Section -->
+            <section class="gallery-section toppers mb-16">
+                <h2 class="text-3xl font-light mb-8 text-center">Toppers</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Toppers Gallery Item 1 -->
+                    <div class="aspect-square overflow-hidden rounded-lg relative group">
+                        <div class="loader absolute inset-0 flex items-center justify-center">
+                            <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-white"></div>
+                        </div>
+                        <img src="https://picsum.photos/400/400?random=7" 
+                             data-large="https://picsum.photos/1600/1600?random=7"
+                             alt="Topper 1" 
+                             class="gallery-image w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" 
+                             loading="lazy">
+                        <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                            <p class="text-white text-lg">Topper 1</p>
+                        </div>
+                    </div>
+                    <!-- Toppers Gallery Item 2 -->
+                    <div class="aspect-square overflow-hidden rounded-lg relative group">
+                        <div class="loader absolute inset-0 flex items-center justify-center">
+                            <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-white"></div>
+                        </div>
+                        <img src="https://picsum.photos/400/400?random=8" 
+                             data-large="https://picsum.photos/1600/1600?random=8"
+                             alt="Topper 2" 
+                             class="gallery-image w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" 
+                             loading="lazy">
+                        <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                            <p class="text-white text-lg">Topper 2</p>
+                        </div>
+                    </div>
+                    <!-- Toppers Gallery Item 3 -->
+                    <div class="aspect-square overflow-hidden rounded-lg relative group">
+                        <div class="loader absolute inset-0 flex items-center justify-center">
+                            <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-white"></div>
+                        </div>
+                        <img src="https://picsum.photos/400/400?random=9" 
+                             data-large="https://picsum.photos/1600/1600?random=9"
+                             alt="Topper 3" 
+                             class="gallery-image w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" 
+                             loading="lazy">
+                        <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                            <p class="text-white text-lg">Topper 3</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="py-8 text-center text-gray-400">
+        <p>© 2024 RGPV Papers Hub. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript Section -->
+    <script>
+        // Hamburger Menu Toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const navMenu = document.getElementById('nav-menu');
+
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('hidden');
+            menuToggle.textContent = navMenu.classList.contains('hidden') ? '☰' : '✕';
+        });
+
+        // Close Menu on Link Click
+        navMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.add('hidden');
+                menuToggle.textContent = '☰';
+            });
+        });
+
+        // Filter Functionality
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const gallerySections = document.querySelectorAll('.gallery-section');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Update active button state
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const filter = btn.dataset.filter;
+                gallerySections.forEach(section => {
+                    if (filter === 'all' || section.classList.contains(filter)) {
+                        section.classList.remove('hidden');
+                        gsap.fromTo(section, { opacity: 0 }, { opacity: 1, duration: 0.3 });
+                    } else {
+                        gsap.to(section, { opacity: 0, duration: 0.3, onComplete: () => section.classList.add('hidden') });
+                    }
+                });
+            });
+        });
+
+        // Lightbox Functionality
+        const galleryImages = document.querySelectorAll('.gallery-image');
+        let currentIndex = 0;
+
+        function openLightbox(index) {
+            currentIndex = index;
+            const img = galleryImages[currentIndex];
+            const largeSrc = img.dataset.large;
+            const caption = img.alt;
+
+            const lightbox = document.createElement('div');
+            lightbox.className = 'lightbox fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50';
+            lightbox.innerHTML = `
+                <button class="absolute top-4 right-4 text-white text-2xl">×</button>
+                <button class="absolute left-4 top-1/2 -translate-y-1/2 text-white text-4xl"><</button>
+                <div class="flex flex-col items-center">
+                    <img src="${largeSrc}" class="max-w-[90vw] max-h-[80vh] object-contain" />
+                    <p class="text-white text-lg mt-4">${caption}</p>
+                </div>
+                <button class="absolute right-4 top-1/2 -translate-y-1/2 text-white text-4xl">></button>
+            `;
+
+            document.body.appendChild(lightbox);
+            document.body.classList.add('overflow-hidden');
+
+            const closeBtn = lightbox.querySelector('button:first-child');
+            const prevBtn = lightbox.querySelector('button:nth-child(2)');
+            const nextBtn = lightbox.querySelector('button:last-child');
+
+            closeBtn.addEventListener('click', closeLightbox);
+            prevBtn.addEventListener('click', showPrevious);
+            nextBtn.addEventListener('click', showNext);
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) closeLightbox();
+            });
+
+            // GSAP Animations for Lightbox Opening
+            gsap.from(lightbox, { opacity: 0, duration: 0.3 });
+            gsap.from(lightbox.querySelector('img'), { scale: 0.8, duration: 0.3 });
+        }
+
+        function closeLightbox() {
+            const lightbox = document.querySelector('.lightbox');
+            gsap.to(lightbox, { 
+                opacity: 0, 
+                duration: 0.3, 
+                onComplete: () => {
+                    lightbox.remove();
+                    document.body.classList.remove('overflow-hidden');
+                }
+            });
+        }
+
+        function showPrevious() {
+            currentIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length;
+            updateLightboxImage();
+        }
+
+        function showNext() {
+            currentIndex = (currentIndex + 1) % galleryImages.length;
+            updateLightboxImage();
+        }
+
+        function updateLightboxImage() {
+            const img = galleryImages[currentIndex];
+            const largeSrc = img.dataset.large;
+            const caption = img.alt;
+            const lightboxImg = document.querySelector('.lightbox img');
+            const lightboxCaption = document.querySelector('.lightbox p');
+            lightboxImg.src = largeSrc;
+            lightboxCaption.textContent = caption;
+            gsap.fromTo(lightboxImg, { opacity: 0 }, { opacity: 1, duration: 0.3 });
+        }
+
+        // Add Click Event to Gallery Images
+        galleryImages.forEach((img, index) => {
+            img.addEventListener('click', () => openLightbox(index));
+        });
+
+        // Hide Loaders When Images Load or Fail
+        galleryImages.forEach(img => {
+            img.addEventListener('load', () => {
+                const loader = img.parentElement.querySelector('.loader');
+                if (loader) loader.style.display = 'none';
+            });
+            img.addEventListener('error', () => {
+                const loader = img.parentElement.querySelector('.loader');
+                if (loader) loader.style.display = 'none';
+                img.src = 'path/to/fallback-image.jpg'; // Replace with a fallback image if needed
+            });
+        });
+
+        // Keyboard Navigation for Lightbox
+        document.addEventListener('keydown', (e) => {
+            if (document.querySelector('.lightbox')) {
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowLeft') showPrevious();
+                if (e.key === 'ArrowRight') showNext();
+            }
+        });
+
+        // GSAP Animation for Gallery Images on Page Load
+        gsap.from('.gallery-image', { opacity: 0, y: 20, duration: 0.5, stagger: 0.1 });
+    </script>
+</body>
+</html>
