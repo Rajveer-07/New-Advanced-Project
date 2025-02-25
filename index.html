@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RGPV Papers Hub - Your Academic Resource</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- GSAP and ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Access Rajiv Gandhi Proudyogiki Vishwavidyalaya (RGPV) previous year question papers, study materials, and academic resources for engineering and management students.">
+    <meta name="keywords" content="RGPV, question papers, previous year papers, engineering, management, study materials, education">
+    <meta name="author" content="RGPV Papers Hub Team">
+    <!-- Open Graph Tags for Social Media -->
+    <meta property="og:title" content="RGPV Papers Hub - Academic Resources">
+    <meta property="og:description" content="Your one-stop platform for RGPV question papers and study materials.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://rgpv-papers-hub.example.com">
+    <meta property="og:image" content="https://i.ibb.co/67YdYqs5/Screenshot-2025-02-24-at-1-37-37-PM-removebg-preview.png">
+    <!-- Custom Styles -->
+    <style>
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+        /* SVG Styling */
+        .grok-svg svg {
+            width: 100%;
+            height: 100vh;
+            margin: 0;
+        }
+        /* Custom Hover Effects for Dropdown */
+        .dropdown-menu {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        .group:hover .dropdown-menu {
+            display: block;
+            opacity: 1;
+        }
+        /* Card Hover Animation */
+        .paper-card {
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+        .paper-card:hover {
+            transform: scale(1.05);
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        /* Ensure smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="bg-black text-white font-[Inter] overflow-x-hidden">
+    <!-- Header with Navigation and Search -->
+    <header class="fixed top-0 left-0 right-0 px-4 md:px-10 z-50 backdrop-blur-md bg-black/50">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 py-4">
+            <!-- Logo -->
+            <div class="flex items-center">
+                <a href="index.html" class="group" aria-label="RGPV Papers Hub Home">
+                    <img src="https://i.ibb.co/67YdYqs5/Screenshot-2025-02-24-at-1-37-37-PM-removebg-preview.png" 
+                         alt="RGPV Logo" 
+                         class="w-12 h-auto mr-5 transition-transform duration-300 group-hover:scale-110">
+                </a>
+            </div>
+            <!-- Navigation -->
+            <nav class="flex-1">
+                <ul class="flex flex-wrap justify-center md:justify-start items-center gap-4 md:gap-8">
+                    <li><a href="index.html" class="text-[#B3B3B3] hover:text-white text-sm md:text-base transition-colors">Home</a></li>
+                    <li><a href="papers.html" class="text-[#B3B3B3] hover:text-white text-sm md:text-base transition-colors">Papers</a></li>
+                    <li><a href="gallery.html" class="text-[#B3B3B3] hover:text-white text-sm md:text-base transition-colors">Gallery</a></li>
+                    <li><a href="about.html" class="text-[#B3B3B3] hover:text-white text-sm md:text-base transition-colors">About</a></li>
+                    <li><a href="careers.html" class="text-[#B3B3B3] hover:text-white text-sm md:text-base transition-colors">Careers</a></li>
+                </ul>
+            </nav>
+            <!-- Search Bar -->
+            <div class="search-bar">
+                <input type="text" id="search-input" placeholder="Search papers..." 
+                       class="bg-white/10 text-white px-4 py-2 rounded-full w-64 focus:outline-none focus:ring-2 focus:ring-purple-600" 
+                       aria-label="Search for papers">
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section with SVG -->
+        <section class="hero min-h-screen flex flex-col items-center justify-center relative">
+            <!-- Background Gradient -->
+            <div class="absolute inset-0 bg-gradient-to-b from-purple-900/20 to-black"></div>
+            <!-- Particle Animation Container -->
+            <div class="absolute inset-0" id="particles"></div>
+            <!-- SVG Logo -->
+            <div class="grok-svg relative z-10">
+                <svg viewBox="0 0 1800 1200" preserveAspectRatio="xMidYMid meet">
+                    <defs>
+                        <!-- Glow Filter -->
+                        <filter id="glow">
+                            <feGaussianBlur in="SourceAlpha" stdDeviation="4" result="blur"/>
+                            <feOffset in="blur" dx="-10" dy="0" result="blurRed"/>
+                            <feFlood flood-color="red" result="redFlood"/>
+                            <feComposite in="redFlood" in2="blurRed" operator="in" result="redGlow"/>
+                            <feOffset in="blur" dx="20" dy="0" result="blurGreen"/>
+                            <feFlood flood-color="green" result="greenFlood"/>
+                            <feComposite in="greenFlood" in2="blurGreen" operator="in" result="greenGlow"/>
+                            <feOffset in="blur" dx="0" dy="-10" result="blurBlue"/>
+                            <feFlood flood-color="blue" result="blueFlood"/>
+                            <feComposite in="blueFlood" in2="blurBlue" operator="in" result="blueGlow"/>
+                            <feMerge>
+                                <feMergeNode in="redGlow"/>
+                                <feMergeNode in="greenGlow"/>
+                                <feMergeNode in="blueGlow"/>
+                                <feMergeNode in="SourceGraphic"/>
+                            </feMerge>
+                        </filter>
+                        <!-- Gradient Mask -->
+                        <mask id="glow-mask">
+                            <radialGradient id="gradient" cx="800" cy="100" r="350" gradientUnits="userSpaceOnUse">
+                                <stop offset="0%" stop-color="white" stop-opacity="50"/>
+                                <stop offset="100%" stop-color="white" stop-opacity="0"/>
+                            </radialGradient>
+                            <rect width="90%" height="90%" fill="url(#gradient)"/>
+                        </mask>
+                    </defs>
+                    <text x="50.5%" y="50.5%" text-anchor="middle" dominant-baseline="middle" font-size="500" font-weight="light" stroke="#ffffff" stroke-width="0" fill="none">RGPV</text>
+                    <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-size="500" font-weight="bold" stroke="#ffffff" stroke-width="5" fill="none" filter="url(#glow)" mask="url(#glow-mask)">RGPV</text>
+                </svg>
+            </div>
+            <!-- Announcement and CTA -->
+            <div class="mt-12 space-y-7 text-centre relative z-10">
+                <p class="text-2xl md:text-3xl text-white/90 font-light">Your Gateway to Academic Excellence</p>
+                <div class="flex justify-center items-center gap-8">
+                    <a href="about.html" class="group px-6 py-3 bg-white/10 hover:bg-white/20 rounded-full transition-all duration-300 hover:scale-105" aria-label="Learn more about RGPV Papers Hub">
+                        <span class="text-white group-hover:text-white/90">Learn more</span>
+                    </a>
+                    <a href="papers.html" class="group px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-full transition-all duration-300 hover:scale-105" aria-label="Get started with papers">
+                        <span class="text-white group-hover:text-white/90">Get Started →</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Papers Section -->
+        <section id="featured-papers" class="py-20 bg-black/80">
+            <div class="max-w-7xl mx-auto px-4">
+                <h2 class="text-3xl font-bold mb-8 text-center">Featured Papers</h2>
+                <!-- Filters -->
+                <div class="filters mb-8 flex justify-center gap-4 flex-wrap">
+                    <select id="branch-filter" class="bg-white/10 text-white p-2 rounded focus:outline-none focus:ring-2 focus:ring-purple-600" aria-label="Filter by branch">
+                        <option value="">All Branches</option>
+                    </select>
+                    <select id="semester-filter" class="bg-white/10 text-white p-2 rounded focus:outline-none focus:ring-2 focus:ring-purple-600" aria-label="Filter by semester">
+                        <option value="">All Semesters</option>
+                    </select>
+                    <button id="clear-filters" class="px-4 py-2 bg-red-600 rounded hover:bg-red-700 transition-colors">Clear Filters</button>
+                </div>
+                <!-- Papers Grid -->
+                <div id="papers-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-black/50 py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p>&copy; 2023 RGPV Papers Hub. All rights reserved.</p>
+            <div class="mt-4 flex justify-center gap-4">
+                <a href="https://facebook.com" class="text-white/80 hover:text-white" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://twitter.com" class="text-white/80 hover:text-white" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="https://linkedin.com" class="text-white/80 hover:text-white" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Register GSAP ScrollTrigger
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Sample Papers Data
+            const papers = [
+                { title: "Engineering Mathematics - I", description: "First semester engineering mathematics paper.", branch: "Common", semester: 1, year: 2022 },
+                { title: "Data Structures", description: "Previous year paper for data structures.", branch: "Computer Science", semester: 3, year: 2021 },
+                { title: "Thermodynamics", description: "Mechanical engineering thermodynamics paper.", branch: "Mechanical", semester: 4, year: 2020 },
+                { title: "Electrical Circuits", description: "Electrical engineering circuits paper.", branch: "Electrical", semester: 2, year: 2019 },
+                { title: "Operating Systems", description: "Operating systems course paper.", branch: "Computer Science", semester: 5, year: 2022 },
+                { title: "Fluid Mechanics", description: "Mechanical engineering fluid mechanics paper.", branch: "Mechanical", semester: 3, year: 2021 },
+                { title: "Digital Electronics", description: "Electronics engineering digital circuits paper.", branch: "Electronics", semester: 4, year: 2020 }
+            ];
+
+            // Populate Filters
+            const uniqueBranches = [...new Set(papers.map(paper => paper.branch))];
+            const branchFilter = document.getElementById('branch-filter');
+            uniqueBranches.forEach(branch => {
+                const option = document.createElement('option');
+                option.value = branch;
+                option.textContent = branch;
+                branchFilter.appendChild(option);
+            });
+
+            const uniqueSemesters = [...new Set(papers.map(paper => paper.semester))].sort((a, b) => a - b);
+            const semesterFilter = document.getElementById('semester-filter');
+            uniqueSemesters.forEach(semester => {
+                const option = document.createElement('option');
+                option.value = semester;
+                option.textContent = `Semester ${semester}`;
+                semesterFilter.appendChild(option);
+            });
+
+            // Render Papers Function
+            function renderPapers(filteredPapers) {
+                const grid = document.getElementById('papers-grid');
+                grid.innerHTML = '';
+                filteredPapers.forEach((paper, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'paper-card bg-white/10 p-6 rounded-lg opacity-0';
+                    card.innerHTML = `
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-book text-purple-400"></i>
+                            <h3 class="text-xl font-semibold">${paper.title}</h3>
+                        </div>
+                        <p class="text-white/80 mt-2 mb-4">${paper.description}</p>
+                        <a href="#" class="inline-block px-4 py-2 bg-purple-600 rounded hover:bg-purple-700 transition-colors">
+                            <i class="fas fa-file-pdf mr-2"></i>View Paper
+                        </a>
+                    `;
+                    grid.appendChild(card);
+                    // Animate card entry
+                    gsap.to(card, { opacity: 1, duration: 0.5, delay: index * 0.1 });
+                });
+            }
+
+            // Apply Filters Function
+            function applyFilters(searchQuery = '') {
+                const branch = branchFilter.value;
+                const semester = semesterFilter.value;
+                let filtered = papers;
+                if (branch) filtered = filtered.filter(paper => paper.branch === branch);
+                if (semester) filtered = filtered.filter(paper => paper.semester == semester);
+                if (searchQuery) {
+                    filtered = filtered.filter(paper => 
+                        paper.title.toLowerCase().includes(searchQuery) || 
+                        paper.description.toLowerCase().includes(searchQuery)
+                    );
+                }
+                renderPapers(filtered);
+            }
+
+            // Event Listeners
+            document.getElementById('search-input').addEventListener('input', (e) => applyFilters(e.target.value.toLowerCase()));
+            branchFilter.addEventListener('change', () => applyFilters(document.getElementById('search-input').value.toLowerCase()));
+            semesterFilter.addEventListener('change', () => applyFilters(document.getElementById('search-input').value.toLowerCase()));
+            document.getElementById('clear-filters').addEventListener('click', () => {
+                branchFilter.value = '';
+                semesterFilter.value = '';
+                document.getElementById('search-input').value = '';
+                renderPapers(papers);
+            });
+
+            // Initial Render
+            renderPapers(papers);
+
+            // GSAP Animations
+            // Header Fade In
+            gsap.from('header', { y: -50, opacity: 0, duration: 1, ease: 'power2.out' });
+            // Featured Papers Scroll Animation
+            gsap.from('#featured-papers', {
+                scrollTrigger: {
+                    trigger: '#featured-papers',
+                    start: 'top 80%',
+                    toggleActions: 'play none none reverse'
+                },
+                opacity: 0,
+                y: 50,
+                duration: 1
+            });
+
+            // SVG Gradient Interaction
+            const svg = document.querySelector('.grok-svg svg');
+            const gradient = document.getElementById('gradient');
+            svg.addEventListener('mousemove', (event) => {
+                const point = svg.createSVGPoint();
+                point.x = event.clientX;
+                point.y = event.clientY;
+                const svgPoint = point.matrixTransform(svg.getScreenCTM().inverse());
+                gradient.setAttribute('cx', svgPoint.x);
+                gradient.setAttribute('cy', svgPoint.y);
+            });
+
+            // Particle Animation
+            class Particle {
+                constructor(x, y) {
+                    this.x = x;
+                    this.y = y;
+                    this.size = Math.random() * 2;
+                    this.speedX = Math.random() * 9 - 3;
+                    this.speedY = Math.random() * 9 - 2;
+                }
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    if (this.size > 0.1) this.size -= 0.02;
+                }
+                draw(ctx) {
+                    ctx.fillStyle = 'rgba(255,255,255,0.5)';
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.style.position = 'absolute';
+            canvas.style.top = '0';
+            canvas.style.left = '0';
+            canvas.style.width = '100%';
+            canvas.style.height = '100%';
+            canvas.style.pointerEvents = 'none';
+            document.getElementById('particles').appendChild(canvas);
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+
+            let particles = [];
+            const numberOfParticles = 100;
+            function createParticles() {
+                for (let i = 0; i < numberOfParticles; i++) {
+                    particles.push(new Particle(Math.random() * canvas.width, Math.random() * canvas.height));
+                }
+            }
+            function animateParticles() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach((particle, index) => {
+                    particle.update();
+                    particle.draw(ctx);
+                    if (particle.size <= 0.2) {
+                        particles.splice(index, 1);
+                        particles.push(new Particle(Math.random() * canvas.width, Math.random() * canvas.height));
+                    }
+                });
+                requestAnimationFrame(animateParticles);
+            }
+            createParticles();
+            animateParticles();
+        });
+    </script>
+</body>
+</html>
