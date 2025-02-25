@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Papers - RGPV Papers Hub</title>
+    <!-- Tailwind CSS CDN for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- GSAP for animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <style>
+        /* Custom styling for a polished look */
+        body {
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .hover-glow {
+            transition: all 0.3s ease;
+        }
+        .hover-glow:hover {
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+        }
+    </style>
+</head>
+<body class="min-h-screen text-white font-[Inter]">
+    <!-- Header Section -->
+    <header class="fixed top-0 left-0 right-0 px-4 md:px-10 z-20 glass-effect py-4">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <!-- Logo -->
+            <div class="flex items-center">
+                <a href="index.html">
+                    <img src="https://i.ibb.co/67YdYqs5/Screenshot-2025-02-24-at-1-37-37-PM-removebg-preview.png" 
+                         alt="RGPV Logo" 
+                         class="w-12 h-auto mr-5 transition-transform hover:scale-110">
+                </a>
+            </div>
+           <!-- Navigation -->
+           <nav class="flex-1">
+            <ul class="flex flex-wrap justify-center md:justify-start items-center gap-4 md:gap-8">
+                <li><a href="index.html" class="text-[#B3B3B3] hover:text-white text-sm md:text-base transition-colors">Home</a></li>
+                <li><a href="papers.html" class="text-[#B3B3B3] hover:text-white text-sm md:text-base transition-colors">Papers</a></li>
+                <li><a href="gallery.html" class="text-[#B3B3B3] hover:text-white text-sm md:text-base transition-colors">Gallery</a></li>
+                <li><a href="about.html" class="text-[#B3B3B3] hover:text-white text-sm md:text-base transition-colors">About</a></li>
+                <li><a href="careers.html" class="text-[#B3B3B3] hover:text-white text-sm md:text-base transition-colors">Careers</a></li>
+            </ul>
+        </nav>
+        </div>
+    </header>
+
+       <!-- Background Animation -->
+       <div class="absolute inset-0 bg-gradient-to-b from-purple-900/20 to-black"></div>
+       <div class="absolute inset-0" id="particles"></div>
+
+ <!-- Advanced Animation Script -->
+   <script>
+       document.addEventListener('DOMContentLoaded', function() {
+           // GSAP Animation
+           gsap.to(".text-animate", {
+               duration: 0.1,
+               opacity: 1,
+               yoyo: true,
+               repeat: -1,
+               ease: "power1.inOut"
+           });
+
+           // Particle Animation
+           class Particle {
+               constructor(x, y) {
+                   this.x = x;
+                   this.y = y;
+                   this.size = Math.random() * 2;
+                   this.speedX = Math.random() * 9 - 3;
+                   this.speedY = Math.random() * 9 - 2;
+               }
+
+               update() {
+                   this.x += this.speedX;
+                   this.y += this.speedY;
+
+                   if (this.size > 0.1) this.size -= 0.02;
+               }
+
+               draw(ctx) {
+                   ctx.fillStyle = 'rgba(255,255,255,0.5)';
+                   ctx.beginPath();
+                   ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                   ctx.fill();
+               }
+           }
+
+           const canvas = document.createElement('canvas');
+           const ctx = canvas.getContext('2d');
+           canvas.style.position = 'absolute';
+           canvas.style.top = '1';
+           canvas.style.left = '2';
+           canvas.style.width = '100%';
+           canvas.style.height = '100%';
+           canvas.style.pointerEvents = 'none';
+           document.getElementById('particles').appendChild(canvas);
+
+           function resizeCanvas() {
+               canvas.width = window.innerWidth;
+               canvas.height = window.innerHeight;
+           }
+
+           window.addEventListener('resize', resizeCanvas);
+           resizeCanvas();
+
+           let particles = [];
+           const numberOfParticles = 100;
+
+           function createParticles() {
+               for (let i = 0; i < numberOfParticles; i++) {
+                   particles.push(new Particle(
+                       Math.random() * canvas.width,
+                       Math.random() * canvas.height
+                   ));
+               }
+           }
+
+           function animateParticles() {
+               ctx.clearRect(0, 0, canvas.width, canvas.height);
+               
+               particles.forEach((particle, index) => {
+                   particle.update();
+                   particle.draw(ctx);
+
+                   if (particle.size <= 0.2) {
+                       particles.splice(index, 1);
+                       particles.push(new Particle(
+                           Math.random() * canvas.width,
+                           Math.random() * canvas.height
+                       ));
+                   }
+               });
+
+               requestAnimationFrame(animateParticles);
+           }
+
+           createParticles();
+           animateParticles();
+
+           // Interactive gradient on mouse move
+           const svg = document.querySelector('svg');
+           document.addEventListener('mousemove', (e) => {
+               const mouseX = e.clientX / window.innerWidth;
+               const mouseY = e.clientY / window.innerHeight;
+               
+               const gradient = document.getElementById('text-gradient');
+               if (gradient) {
+                   gradient.setAttribute('x1', `${mouseX * 100}%`);
+                   gradient.setAttribute('y1', `${mouseY * 100}%`);
+                   gradient.setAttribute('x2', `${(1 - mouseX) * 100}%`);
+                   gradient.setAttribute('y2', `${(1 - mouseY) * 100}%`);
+               }
+           });
+       });
+   </script>
+
+    <!-- Main Content Section -->
+    <main class="pt-24 pb-20 relative z-10">
+        <div class="max-w-5xl mx-auto px-4">
+            <!-- Upload Section -->
+            <section id="upload-section" class="mb-16 glass-effect p-6 rounded-lg">
+                <h2 class="text-4xl font-semibold mb-8 text-center bg-gradient-to-r from-blue-400 to-purple-500 text-transparent bg-clip-text">Upload a Paper</h2>
+                <form id="upload-form" class="space-y-6">
+                    <div>
+                        <label for="title" class="block text-sm font-medium text-gray-300">Title</label>
+                        <input type="text" id="title" name="title" required class="mt-1 block w-full p-3 bg-gray-800 rounded-lg border border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+                    </div>
+                    <div>
+                        <label for="subject" class="block text-sm font-medium text-gray-300">Subject</label>
+                        <input type="text" id="subject" name="subject" required class="mt-1 block w-full p-3 bg-gray-800 rounded-lg border border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+                    </div>
+                    <div>
+                        <label for="year" class="block text-sm font-medium text-gray-300">Year</label>
+                        <input type="number" id="year" name="year" required class="mt-1 block w-full p-3 bg-gray-800 rounded-lg border border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+                    </div>
+                    <div>
+                        <label for="file" class="block text-sm font-medium text-gray-300">Paper (PDF only)</label>
+                        <input type="file" id="file" name="file" accept="application/pdf" required class="mt-1 block w-full p-3 bg-gray-800 rounded-lg border border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+                    </div>
+                    <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all">Upload Paper</button>
+                </form>
+            </section>
+
+            <!-- Papers Section -->
+            <section id="papers-section" class="glass-effect p-6 rounded-lg">
+                <h2 class="text-4xl font-semibold mb-8 text-center bg-gradient-to-r from-blue-400 to-purple-500 text-transparent bg-clip-text">Available Papers</h2>
+                <!-- Search Bar -->
+                <div class="mb-8">
+                    <input type="text" id="search" placeholder="Search papers by title or subject..." class="w-full p-3 bg-gray-800 rounded-lg border border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+                </div>
+                <!-- Papers Grid -->
+                <div id="papers-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+                <!-- No Papers Message -->
+                <p id="no-papers" class="text-center text-gray-400 mt-4 hidden">No papers found matching your search.</p>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="py-8 text-center text-gray-400 relative z-10">
+        <p>© 2024 RGPV Papers Hub. All rights reserved.</p>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed top-4 right-4 bg-gradient-to-r from-green-500 to-teal-500 text-white p-4 rounded-lg shadow-lg opacity-0 pointer-events-none transition-all"></div>
+
+    <!-- JavaScript Section -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hamburger Menu Toggle
+            const menuToggle = document.getElementById('menu-toggle');
+            const navMenu = document.getElementById('nav-menu');
+            menuToggle.addEventListener('click', () => {
+                navMenu.classList.toggle('hidden');
+                menuToggle.textContent = navMenu.classList.contains('hidden') ? '☰' : '✕';
+            });
+            navMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenu.classList.add('hidden');
+                    menuToggle.textContent = '☰';
+                });
+            });
+
+            // Particle Animation
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.style.position = 'absolute';
+            canvas.style.top = '0';
+            canvas.style.left = '0';
+            canvas.style.width = '100%';
+            canvas.style.height = '100%';
+            canvas.style.pointerEvents = 'none';
+            document.getElementById('particles').appendChild(canvas);
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+
+            let particles = [];
+            const numberOfParticles = 80;
+
+            class Particle {
+                constructor(x, y) {
+                    this.x = x;
+                    this.y = y;
+                    this.size = Math.random() * 2 + 1;
+                    this.speedX = Math.random() * 1 - 0.5;
+                    this.speedY = Math.random() * 1 - 0.5;
+                    this.life = Math.random() * 60 + 30;
+                }
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    this.life--;
+                    if (this.life <= 0) {
+                        this.x = Math.random() * canvas.width;
+                        this.y = Math.random() * canvas.height;
+                        this.life = Math.random() * 60 + 30;
+                    }
+                }
+                draw() {
+                    ctx.fillStyle = `rgba(255, 255, 255, ${this.life / 90})`;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            function initParticles() {
+                particles = [];
+                for (let i = 0; i < numberOfParticles; i++) {
+                    particles.push(new Particle(Math.random() * canvas.width, Math.random() * canvas.height));
+                }
+            }
+            function animateParticles() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    p.update();
+                    p.draw();
+                });
+                requestAnimationFrame(animateParticles);
+            }
+            initParticles();
+            animateParticles();
+
+            // Sample Papers Data
+            const samplePapers = [
+                { title: "Mathematics - 2020", subject: "Mathematics", year: 2020, url: "https://example.com/paper1.pdf" },
+                { title: "Physics - 2019", subject: "Physics", year: 2019, url: "https://example.com/paper2.pdf" },
+                { title: "Computer Science - 2021", subject: "Computer Science", year: 2021, url: "https://example.com/paper3.pdf" },
+            ];
+
+            // Generate Paper Cards
+            const papersGrid = document.getElementById('papers-grid');
+            const paperCards = [];
+            samplePapers.forEach((paper, index) => {
+                const card = document.createElement('div');
+                card.className = 'bg-gray-800 p-5 rounded-lg hover-glow transform transition-all duration-300 opacity-0';
+                card.innerHTML = `
+                    <h3 class="text-xl font-semibold mb-3 text-blue-300"><i class="fas fa-file-pdf mr-2"></i>${paper.title}</h3>
+                    <p class="text-gray-400 mb-1">Subject: <span class="text-white">${paper.subject}</span></p>
+                    <p class="text-gray-400 mb-4">Year: <span class="text-white">${paper.year}</span></p>
+                    <a href="${paper.url}" class="inline-block bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all" target="_blank">Download</a>
+                `;
+                card.dataset.title = paper.title.toLowerCase();
+                card.dataset.subject = paper.subject.toLowerCase();
+                papersGrid.appendChild(card);
+                paperCards.push(card);
+                gsap.from(card, { opacity: 0, y: 20, duration: 0.6, delay: index * 0.1, ease: "power2.out" });
+            });
+
+            // Search Functionality
+            const searchInput = document.getElementById('search');
+            const noPapersMessage = document.getElementById('no-papers');
+            searchInput.addEventListener('input', () => {
+                const query = searchInput.value.toLowerCase();
+                let anyVisible = false;
+                paperCards.forEach(card => {
+                    const title = card.dataset.title;
+                    const subject = card.dataset.subject;
+                    if (title.includes(query) || subject.includes(query)) {
+                        card.classList.remove('hidden');
+                        anyVisible = true;
+                        gsap.to(card, { opacity: 1, y: 0, duration: 0.3 });
+                    } else {
+                        gsap.to(card, { opacity: 0, y: 20, duration: 0.3, onComplete: () => card.classList.add('hidden') });
+                    }
+                });
+                noPapersMessage.classList.toggle('hidden', anyVisible);
+            });
+
+            // Upload Form Submission
+            const uploadForm = document.getElementById('upload-form');
+            uploadForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                showToast('Paper uploaded successfully!');
+                uploadForm.reset();
+            });
+
+            // Toast Notification
+            function showToast(message) {
+                const toast = document.getElementById('toast');
+                toast.textContent = message;
+                gsap.to(toast, { 
+                    opacity: 1, 
+                    y: 0, 
+                    duration: 0.5, 
+                    ease: "back.out(1.7)", 
+                    onComplete: () => {
+                        setTimeout(() => {
+                            gsap.to(toast, { opacity: 0, y: -20, duration: 0.5 });
+                        }, 3000);
+                    }
+                });
+            }
+
+            // Initial Animations
+            gsap.from('#upload-section', { opacity: 0, y: 30, duration: 0.8, ease: "power2.out" });
+            gsap.from('#papers-section', { opacity: 0, y: 30, duration: 0.8, delay: 0.2, ease: "power2.out" });
+        });
+    </script>
+</body>
+</html>
